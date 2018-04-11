@@ -1,0 +1,22 @@
+{
+  "name": "damjanko-career-server",
+  "version": "1.0.0",
+  "description": "Server side of damjanko-career",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stari89/damjanko-career-server.git"
+  },
+  "author": "Damjan Kovačič",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Stari89/damjanko-career-server/issues"
+  },
+  "homepage": "https://github.com/Stari89/damjanko-career-server#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
