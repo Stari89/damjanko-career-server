@@ -1,10 +1,11 @@
 {
   "name": "damjanko-career-server",
   "version": "1.0.0",
-  "description": "Server side of damjanko-career",
-  "main": "app.js",
+  "description": "DamjanKo career RESTful web service",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,15 @@
   },
   "homepage": "https://github.com/Stari89/damjanko-career-server#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "bcrypt": "^2.0.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mongoose": "^5.0.14",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
   }
 }
