@@ -1,10 +1,10 @@
 const http = require('http');
 const app = require('./app');
 
-init();
+run();
 
 /* Initialize everything */
-function init() {
+function run() {
 	validateEnvironmentVariables();
 	startServer();
 }
@@ -20,6 +20,9 @@ function validateEnvironmentVariables() {
 	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_URI) {
 		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_URI environment variable is undefined');
 	}
+	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_USER) {
+		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_USER environment variable is undefined');
+	}
 	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_PASSWORD) {
 		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_PASSWORD environment variable is undefined');
 	}
@@ -29,5 +32,5 @@ function validateEnvironmentVariables() {
 function startServer() {
 	const port = process.env.DAMJANKO_CAREER_SERVER_PORT;
 	const server = http.createServer(app);
-	server.listen(port);
+	server.listen(port, () => console.log(`RESTful service damjanko-career-server listening on port ${port}`));
 }
