@@ -20,12 +20,6 @@ function validateEnvironmentVariables() {
 	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_URI) {
 		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_URI environment variable is undefined');
 	}
-	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_USER) {
-		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_USER environment variable is undefined');
-	}
-	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_PASSWORD) {
-		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_PASSWORD environment variable is undefined');
-	}
 }
 
 /* Starts server */

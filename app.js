@@ -1,16 +1,14 @@
 // dependencies
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 /* MongoDB connection */
 const mongodbUri = process.env.DAMJANKO_CAREER_SERVER_MONGODB_URI;
-const mongodbOptions = {
-	user: process.env.DAMJANKO_CAREER_SERVER_MONGODB_USER,
-	pass: process.env.DAMJANKO_CAREER_SERVER_MONGODB_PASSWORD
-}
-mongoose.connect(mongodbUri, mongodbOptions)
+
+mongoose.connect(mongodbUri)
 	.then(() => {
 		console.log('Connected to mongodb');
 	})
@@ -19,6 +17,9 @@ mongoose.connect(mongodbUri, mongodbOptions)
 		throw err;
 	});
 mongoose.Promise = global.Promise;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -34,7 +35,7 @@ app.use((req, res, next) => {
 const userRoutes = require('./api/routes/users');
 
 // Routes which should handle requests
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
 app.use((req, res, next) => {
 	const error = new Error('Not found');
 	error.status = 404;
