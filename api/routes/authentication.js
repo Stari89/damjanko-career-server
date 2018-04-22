@@ -6,5 +6,6 @@ const AuthenticationController = require('../controllers/authentication');
 
 router.get('/', checkAuth, AuthenticationController.authentication_isAuthenticated);
 router.post('/', AuthenticationController.authentication_authenticate);
+router.get('/is-admin', checkAuth, AuthenticationController.authentication_isAdminAuthenticated);
 
 module.exports = router;

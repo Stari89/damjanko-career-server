@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 exports.users_get_all = (req, res, next) => {
 	User.find()
-		.select('name _id')
+		.select('name role _id')
 		.exec()
 		.then(docs => {
 			const response = {
@@ -47,7 +47,8 @@ exports.users_create_user = (req, res, next) => {
 				const user = new User({
 					_id: new mongoose.Types.ObjectId(),
 					name: req.body.name,
-					password: hash
+					password: hash,
+					role: req.body.role
 				});
 				console.log(user);
 				user.save()
@@ -55,7 +56,7 @@ exports.users_create_user = (req, res, next) => {
 						console.log(result);
 						res.status(201).json({
 							message: 'User created',
-							user: { _id: user._id, name: user.name }
+							user: { _id: user._id, name: user.name, role: user.role }
 						});
 					})
 					.catch(err => {
@@ -77,7 +78,7 @@ exports.users_create_user = (req, res, next) => {
 exports.users_get_user = (req, res, next) => {
 	const id = req.params.userId;
 	User.findById(id)
-		.select('name _id')
+		.select('name role _id')
 		.exec()
 		.then(doc => {
 			console.log("From database", doc);

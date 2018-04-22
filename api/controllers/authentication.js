@@ -10,6 +10,25 @@ exports.authentication_isAuthenticated = (req, res, next) => {
 	});
 }
 
+exports.authentication_isAdminAuthenticated = (req, res, next) => {
+	try {
+		//const token = req.headers.authorization.split(' ')[1];
+		//const decoded = jwt.verify(token, process.env.DAMJANKO_CAREER_SERVER_JWT_KEY);
+		//req.userData = decoded;
+		//res.status
+
+		res.status(200).json({
+			message: 'asdfasdf',
+			data: req.userData
+		});
+
+	} catch (error) {
+		return res.status(401).json({
+			message: 'Authentication failed'
+		});
+	}
+}
+
 exports.authentication_authenticate = (req, res, next) => {
 	const password = req.body.password;
 	User.find()
