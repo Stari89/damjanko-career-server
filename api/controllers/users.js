@@ -14,6 +14,7 @@ exports.users_get_all = (req, res, next) => {
 				users: docs.map(doc => {
 					return {
 						name: doc.name,
+						role: doc.role,
 						_id: doc._id
 					}
 				})
@@ -89,6 +90,28 @@ exports.users_get_user = (req, res, next) => {
 			} else {
 				res.status(404).json({ message: 'No valid entry found for provided ID' });
 			}
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
+
+exports.users_update_user = (req, res, next) => {
+	const id = req.params.userId;
+	const updateOps = {};
+	for (const ops of req.body) {
+		updateOps[ops.propName] = ops.value;
+	}
+	User.update({ _id: id }, { $set: updateOps })
+		.exec()
+		.then(result => {
+			console.log(result);
+			res.status(200).json({
+				message: 'User updated'
+			});
 		})
 		.catch(err => {
 			console.log(err);

@@ -1,7 +1,9 @@
+const User = require('../models/user');
+
 module.exports = (req, res, next) => {
     const id = req.userData.userId;
     User.findById(id)
-        .select('role')
+        .select('role _id')
         .exec()
         .then(doc => {
             console.log('From database', doc);
