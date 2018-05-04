@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 exports.users_get_all = (req, res, next) => {
 	User.find()
-		.select('name role _id')
+		.select('name role created modified _id')
 		.exec()
 		.then(docs => {
 			const response = {
@@ -15,6 +15,8 @@ exports.users_get_all = (req, res, next) => {
 					return {
 						name: doc.name,
 						role: doc.role,
+						created: doc.created,
+						modified: doc.modified,
 						_id: doc._id
 					}
 				})
@@ -49,7 +51,9 @@ exports.users_create_user = (req, res, next) => {
 					_id: new mongoose.Types.ObjectId(),
 					name: req.body.name,
 					password: hash,
-					role: req.body.role
+					role: req.body.role,
+					created: Date.now(),
+					modified: Date.now()
 				});
 				console.log(user);
 				user.save()
@@ -57,7 +61,7 @@ exports.users_create_user = (req, res, next) => {
 						console.log(result);
 						res.status(201).json({
 							message: 'User created',
-							user: { _id: user._id, name: user.name, role: user.role }
+							user: { _id: user._id, name: user.name, role: user.role, created: user.created, modified: user.modified }
 						});
 					})
 					.catch(err => {
@@ -79,7 +83,7 @@ exports.users_create_user = (req, res, next) => {
 exports.users_get_user = (req, res, next) => {
 	const id = req.params.userId;
 	User.findById(id)
-		.select('name role _id')
+		.select('name role created modified _id')
 		.exec()
 		.then(doc => {
 			console.log("From database", doc);
@@ -103,8 +107,12 @@ exports.users_update_user = (req, res, next) => {
 	const id = req.params.userId;
 	const updateOps = {};
 	for (const ops of req.body) {
+		if (ops.propName === 'created' || ops.propName === 'modified') {
+			continue;
+		}
 		updateOps[ops.propName] = ops.value;
 	}
+	updateOps['modified'] = Date.now();
 	User.update({ _id: id }, { $set: updateOps })
 		.exec()
 		.then(result => {
