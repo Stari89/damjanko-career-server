@@ -110,6 +110,10 @@ exports.users_update_user = (req, res, next) => {
 		if (ops.propName === 'created' || ops.propName === 'modified') {
 			continue;
 		}
+		if (ops.propName === 'password') {
+			let newPassword = bcrypt.hashSync(ops.value, 10);
+			ops.value = newPassword;
+		}
 		updateOps[ops.propName] = ops.value;
 	}
 	updateOps['modified'] = Date.now();
