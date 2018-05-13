@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 exports.users_get_all = (req, res, next) => {
 	User.find()
-		.select('name role created modified fullName address _id')
+		.select('name role created modified fullName address userImagePath _id')
 		.exec()
 		.then(docs => {
 			const response = {
@@ -19,6 +19,7 @@ exports.users_get_all = (req, res, next) => {
 						modified: doc.modified,
 						fullName: doc.fullName,
 						address: doc.address,
+						userImagePath: doc.userImagePath,
 						_id: doc._id
 					}
 				})
@@ -34,7 +35,8 @@ exports.users_get_all = (req, res, next) => {
 }
 
 exports.users_create_user = (req, res, next) => {
-	User.find({ name: req.body.name })
+	let newUser = JSON.parse(req.body.user);
+	User.find({ name: newUser.name })
 		.exec()
 		.then(user => {
 			if (user.length > 0) {
@@ -42,22 +44,24 @@ exports.users_create_user = (req, res, next) => {
 					message: 'User already exists'
 				});
 			}
-			bcrypt.hash(req.body.password, 10, (err, hash) => {
+			bcrypt.hash(newUser.password, 10, (err, hash) => {
 				if (err) {
 					console.log(err);
 					res.status(500).json({
 						error: err
 					});
 				}
+				console.log(req.file);
 				const user = new User({
 					_id: new mongoose.Types.ObjectId(),
-					name: req.body.name,
+					name: newUser.name,
 					password: hash,
-					role: req.body.role,
+					role: newUser.role,
 					created: Date.now(),
 					modified: Date.now(),
-					fullName: req.body.fullName,
-					address: req.body.address
+					fullName: newUser.fullName,
+					address: newUser.address,
+					userImagePath: req.file.filename
 				});
 				console.log(user);
 				user.save()
@@ -72,7 +76,8 @@ exports.users_create_user = (req, res, next) => {
 								created: user.created,
 								modified: user.modified,
 								fullName: user.fullName,
-								address: user.address
+								address: user.address,
+								userImagePath: user.userImagePath
 							}
 						});
 					})
@@ -95,7 +100,7 @@ exports.users_create_user = (req, res, next) => {
 exports.users_get_user = (req, res, next) => {
 	const id = req.params.userId;
 	User.findById(id)
-		.select('name role created modified fullName address _id')
+		.select('name role created modified fullName address userImagePath _id')
 		.exec()
 		.then(doc => {
 			console.log("From database", doc);

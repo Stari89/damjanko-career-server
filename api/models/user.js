@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema({
 	created: { type: Date },
 	modified: { type: Date },
 	fullName: { type: String },
-	address: { type: String }
+	address: { type: String },
+	userImagePath: { type: String }
 });
 
 module.exports = mongoose.model('User', userSchema);
