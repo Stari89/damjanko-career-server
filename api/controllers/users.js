@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 exports.users_get_all = (req, res, next) => {
 	User.find()
-		.select('name role created modified _id')
+		.select('name role created modified fullName address _id')
 		.exec()
 		.then(docs => {
 			const response = {
@@ -17,6 +17,8 @@ exports.users_get_all = (req, res, next) => {
 						role: doc.role,
 						created: doc.created,
 						modified: doc.modified,
+						fullName: doc.fullName,
+						address: doc.address,
 						_id: doc._id
 					}
 				})
@@ -53,7 +55,9 @@ exports.users_create_user = (req, res, next) => {
 					password: hash,
 					role: req.body.role,
 					created: Date.now(),
-					modified: Date.now()
+					modified: Date.now(),
+					fullName: req.body.fullName,
+					address: req.body.address
 				});
 				console.log(user);
 				user.save()
@@ -61,7 +65,15 @@ exports.users_create_user = (req, res, next) => {
 						console.log(result);
 						res.status(201).json({
 							message: 'User created',
-							user: { _id: user._id, name: user.name, role: user.role, created: user.created, modified: user.modified }
+							user: {
+								_id: user._id,
+								name: user.name,
+								role: user.role,
+								created: user.created,
+								modified: user.modified,
+								fullName: user.fullName,
+								address: user.address
+							}
 						});
 					})
 					.catch(err => {
@@ -83,7 +95,7 @@ exports.users_create_user = (req, res, next) => {
 exports.users_get_user = (req, res, next) => {
 	const id = req.params.userId;
 	User.findById(id)
-		.select('name role created modified _id')
+		.select('name role created modified fullName address _id')
 		.exec()
 		.then(doc => {
 			console.log("From database", doc);

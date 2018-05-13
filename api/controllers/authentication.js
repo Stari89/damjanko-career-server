@@ -30,7 +30,8 @@ exports.authentication_authenticate = (req, res, next) => {
 						});
 					return res.status(200).json({
 						message: 'Authentication successful',
-						token: token
+						token: token,
+						user: users[i]
 					});
 				}
 			}
