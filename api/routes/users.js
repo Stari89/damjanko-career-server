@@ -28,14 +28,15 @@ const upload = multer({
 
 const checkAuth = require('../middleware/check-auth');
 const checkAdmin = require('../middleware/check-admin');
+const logMessage = require('../middleware/log-message');
 const UsersController = require('../controllers/users');
 
-router.get('/', checkAuth, checkAdmin, UsersController.users_get_all);
-router.post('/', checkAuth, checkAdmin, UsersController.users_create_user);
-router.get('/:userId', checkAuth, checkAdmin, UsersController.users_get_user);
-router.patch('/:userId', checkAuth, checkAdmin, UsersController.users_update_user);
-router.put('/:userId', checkAuth, checkAdmin, upload.single('userImage'), UsersController.users_update_user_image);
-router.delete('/:userId', checkAuth, checkAdmin, UsersController.users_delete_user);
+router.get('/', checkAuth, checkAdmin, logMessage, UsersController.users_get_all);
+router.post('/', checkAuth, checkAdmin, logMessage, UsersController.users_create_user);
+router.get('/:userId', checkAuth, checkAdmin, logMessage, UsersController.users_get_user);
+router.patch('/:userId', checkAuth, checkAdmin, logMessage, UsersController.users_update_user);
+router.put('/:userId', checkAuth, checkAdmin, logMessage, upload.single('userImage'), UsersController.users_update_user_image);
+router.delete('/:userId', checkAuth, checkAdmin, logMessage, UsersController.users_delete_user);
 
 
 module.exports = router;

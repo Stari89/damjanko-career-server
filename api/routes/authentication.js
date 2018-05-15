@@ -5,8 +5,10 @@ const checkAdmin = require('../middleware/check-admin');
 
 const AuthenticationController = require('../controllers/authentication');
 
-router.get('/', checkAuth, AuthenticationController.authentication_isAuthenticated);
-router.post('/', AuthenticationController.authentication_authenticate);
-router.get('/is-admin', checkAuth, checkAdmin, AuthenticationController.authentication_isAuthenticated);
+const logMessage = require('../middleware/log-message');
+
+router.get('/', checkAuth, logMessage, AuthenticationController.authentication_isAuthenticated);
+router.post('/', logMessage, AuthenticationController.authentication_authenticate);
+router.get('/is-admin', logMessage, checkAuth, checkAdmin, AuthenticationController.authentication_isAuthenticated);
 
 module.exports = router;
