@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
 			_id: new mongoose.Types.ObjectId(),
 			created: Date.now(),
 			user: req.userData ? req.userData.userId : null,
-			endpoint: req.headers.referer,
+			endpoint: req.originalUrl,
 			message: req.method
 		});
 		logMessage.save()
