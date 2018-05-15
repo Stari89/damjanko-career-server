@@ -35,8 +35,7 @@ exports.users_get_all = (req, res, next) => {
 }
 
 exports.users_create_user = (req, res, next) => {
-	let newUser = JSON.parse(req.body.user);
-	User.find({ name: newUser.name })
+	User.find({ name: req.body.name })
 		.exec()
 		.then(user => {
 			if (user.length > 0) {
@@ -44,7 +43,7 @@ exports.users_create_user = (req, res, next) => {
 					message: 'User already exists'
 				});
 			}
-			bcrypt.hash(newUser.password, 10, (err, hash) => {
+			bcrypt.hash(req.body.password, 10, (err, hash) => {
 				if (err) {
 					console.log(err);
 					res.status(500).json({
@@ -54,14 +53,13 @@ exports.users_create_user = (req, res, next) => {
 				console.log(req.file);
 				const user = new User({
 					_id: new mongoose.Types.ObjectId(),
-					name: newUser.name,
+					name: req.body.name,
 					password: hash,
-					role: newUser.role,
+					role: req.body.role,
 					created: Date.now(),
 					modified: Date.now(),
-					fullName: newUser.fullName,
-					address: newUser.address,
-					userImagePath: req.file.filename
+					fullName: req.body.fullName,
+					address: req.body.address
 				});
 				console.log(user);
 				user.save()
@@ -87,6 +85,26 @@ exports.users_create_user = (req, res, next) => {
 							error: err
 						});
 					});
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
+
+exports.users_update_user_image = (req, res, next) => {
+	const id = req.params.userId;
+	const updateOps = {};
+	updateOps['userImagePath'] = req.file.filename;
+	User.update({ _id: id }, { $set: updateOps })
+		.exec()
+		.then(result => {
+			console.log(result);
+			res.status(200).json({
+				message: 'User image updated'
 			});
 		})
 		.catch(err => {

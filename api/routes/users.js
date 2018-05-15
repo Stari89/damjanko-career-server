@@ -31,9 +31,10 @@ const checkAdmin = require('../middleware/check-admin');
 const UsersController = require('../controllers/users');
 
 router.get('/', checkAuth, checkAdmin, UsersController.users_get_all);
-router.post('/', checkAuth, checkAdmin, upload.single('userImage'), UsersController.users_create_user);
+router.post('/', checkAuth, checkAdmin, UsersController.users_create_user);
 router.get('/:userId', checkAuth, checkAdmin, UsersController.users_get_user);
 router.patch('/:userId', checkAuth, checkAdmin, UsersController.users_update_user);
+router.put('/:userId', checkAuth, checkAdmin, upload.single('userImage'), UsersController.users_update_user_image);
 router.delete('/:userId', checkAuth, checkAdmin, UsersController.users_delete_user);
 
 
