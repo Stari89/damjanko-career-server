@@ -36,11 +36,14 @@ app.use((req, res, next) => {
 const authenticationRoutes = require('./api/routes/authentication');
 const userRoutes = require('./api/routes/users');
 const logRoutes = require('./api/routes/logs');
+const articleRoutes = require('./api/routes/articles');
 
 // Routes which should handle requests
 app.use('/authentication', authenticationRoutes);
 app.use('/users', userRoutes);
 app.use('/logs', logRoutes);
+app.use('/articles', articleRoutes);
+
 app.use((req, res, next) => {
 	const error = new Error('Not found');
 	error.status = 404;
