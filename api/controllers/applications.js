@@ -9,7 +9,7 @@ exports.applications_get_user_assigned_application = (req, res, next) => {
 		});
 		next();
 	}
-	Application.findOne('user_id', req.userData.userId)
+	Application.findOne({ user_id: req.userData.userId, active: true })
 		.select('name user_id active created modified applicationLetterMainEn_id applicationLetterMainSi_id applicationLetterSideEn_id applicationLetterSideSi_id curriculumVitaeMainEn_id curriculumVitaeMainSi_id curriculumVitaeSideEn_id curriculumVitaeSideSi_id aboutMainEn_id aboutMainSi_id aboutSideEn_id aboutSideSi_id _id')
 		.populate('user_id', 'name _id')
 		.populate('applicationLetterMainEn_id', 'name language content created modified _id')
