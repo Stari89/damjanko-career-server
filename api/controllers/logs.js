@@ -4,7 +4,7 @@ const Log = require('../models/log');
 
 exports.logs_get_all = (req, res, next) => {
 	Log.find()
-		.select('created user endpoint message _id')
+		.select('created ip user endpoint message _id')
 		.sort('-created')
 		.limit(500)
 		.populate('user', 'name _id')
@@ -15,6 +15,7 @@ exports.logs_get_all = (req, res, next) => {
 				logs: docs.map(doc => {
 					return {
 						created: doc.created,
+						ip: doc.ip,
 						user: doc.user,
 						endpoint: doc.endpoint,
 						message: doc.message,
@@ -35,7 +36,7 @@ exports.logs_get_all = (req, res, next) => {
 exports.logs_get_by_user = (req, res, next) => {
 	const id = req.params.userId;
 	Log.find({ user: id })
-		.select('created user endpoint message _id')
+		.select('created ip user endpoint message _id')
 		.sort('-created')
 		.limit(500)
 		.populate('user', 'name _id')
@@ -46,6 +47,7 @@ exports.logs_get_by_user = (req, res, next) => {
 				logs: docs.map(doc => {
 					return {
 						created: doc.created,
+						ip: doc.ip,
 						user: doc.user,
 						endpoint: doc.endpoint,
 						message: doc.message,
