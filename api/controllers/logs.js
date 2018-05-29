@@ -6,7 +6,7 @@ exports.logs_get_all = (req, res, next) => {
 	Log.find()
 		.select('created ip user endpoint message _id')
 		.sort('-created')
-		.limit(500)
+		.limit(10000)
 		.populate('user', 'name _id')
 		.exec()
 		.then(docs => {
@@ -38,7 +38,7 @@ exports.logs_get_by_user = (req, res, next) => {
 	Log.find({ user: id })
 		.select('created ip user endpoint message _id')
 		.sort('-created')
-		.limit(500)
+		.limit(10000)
 		.populate('user', 'name _id')
 		.exec()
 		.then(docs => {
