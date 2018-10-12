@@ -1,5 +1,5 @@
-const http = require('http');
-const app = require('./app');
+const http = require("http");
+const app = require("./app");
 
 run();
 
@@ -11,20 +11,25 @@ function run() {
 
 /* Checks environment variables before we start doing anything */
 function validateEnvironmentVariables() {
-	if (!process.env.DAMJANKO_CAREER_SERVER_PORT) {
-		throw new Error('DAMJANKO_CAREER_SERVER_PORT environment variable is undefined');
-	}
 	if (!process.env.DAMJANKO_CAREER_SERVER_JWT_KEY) {
-		throw new Error('DAMJANKO_CAREER_SERVER_JWT_KEY environment variable is undefined');
+		throw new Error(
+			"DAMJANKO_CAREER_SERVER_JWT_KEY environment variable is undefined"
+		);
 	}
 	if (!process.env.DAMJANKO_CAREER_SERVER_MONGODB_URI) {
-		throw new Error('DAMJANKO_CAREER_SERVER_MONGODB_URI environment variable is undefined');
+		throw new Error(
+			"DAMJANKO_CAREER_SERVER_MONGODB_URI environment variable is undefined"
+		);
 	}
 }
 
 /* Starts server */
 function startServer() {
-	const port = process.env.DAMJANKO_CAREER_SERVER_PORT;
+	var port = process.env.PORT || 3000;
 	const server = http.createServer(app);
-	server.listen(port, () => console.log(`RESTful service damjanko-career-server listening on port ${port}`));
+	server.listen(port, () =>
+		console.log(
+			`RESTful service damjanko-career-server listening on port ${port}`
+		)
+	);
 }
